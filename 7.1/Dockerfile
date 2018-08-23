@@ -41,8 +41,11 @@ RUN set -x \
     && chown -R sonarqube:sonarqube sonarqube \
     && rm sonarqube.zip* \
     && rm -rf $SONARQUBE_HOME/bin/*
+    
+WORKDIR $SONARQUBE_HOME/extensions/plugins/
+RUN wget -O sonar-pmd-plugin-$SONAR_PMD_PLUGIN_VERSION.jar https://github.com/imwower/sonar-p3c-pmd/releases/download/v$SONAR_PMD_PLUGIN_VERSION/sonar-pmd-plugin-$SONAR_PMD_PLUGIN_VERSION.jar
 
-VOLUME "$SONARQUBE_HOME/data"
+VOLUME "$SONARQUBE_HOME/data" "$SONARQUBE_HOME/extensions/plugins"
 
 WORKDIR $SONARQUBE_HOME
 COPY run.sh $SONARQUBE_HOME/bin/
